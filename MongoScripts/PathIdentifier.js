@@ -1,16 +1,17 @@
 var db = db.getSiblingDB("rGuestStay");
-var pathLogger=false;
-var cloneLogger=true;
-var deleteScriptLogger =false;
+var pathLogger = false;
+var cloneLogger = false;
+var deleteScriptLogger = false;
+var output = {};
 
-function findKeyPaths(obj, key, currentPath = [], paths = []) {
+function findKeyPaths(obj, keys, currentPath = [], paths = []) {
     for (let prop in obj) {
         if (obj.hasOwnProperty(prop)) {
-            if (prop === key) {
+            if (keys.includes(prop)) {
                 paths.push(currentPath.concat(prop).join('.'));
             }
             if (typeof obj[prop] === 'object') {
-                findKeyPaths(obj[prop], key, currentPath.concat(prop), paths);
+                findKeyPaths(obj[prop], keys, currentPath.concat(prop), paths);
             }
         }
     }
@@ -18,7 +19,7 @@ function findKeyPaths(obj, key, currentPath = [], paths = []) {
 }
 
 var tenantPropertyPath = [
-    { tenantId: ["tenantId", "ti","path"] },
+    { tenantId: ["tenantId", "ti", "path"] },
     { propertyId: ["propertyId", "pi"] }
 ];
 
@@ -28,26 +29,30 @@ function getRandomDocuments(collectionName, numDocuments) {
     return randomDocuments.toArray();
 }
 
-var myCollections = ["accounts", "auditCommits","configEvents","maintenanceServiceRequestEventStream","config"];
+var myCollections = ["accounts", "auditCommits", "configEvents", "maintenanceServiceRequestEventStream", "config"];
 
-var finalOutput = {};
 myCollections.forEach(collection => {
     var documents = getRandomDocuments(collection, 1);
     print("   ");
     print("Working on collection: " + collection);
 
     documents.forEach(document => {
+        var collectionOutput = {};
         tenantPropertyPath.forEach(propertyObj => {
             var tenOrProp = Object.keys(propertyObj)[0];
+            var keys = propertyObj[tenOrProp];
 
-            var patterns = propertyObj[tenOrProp];
-            patterns.forEach(key => {
-                var paths = findKeyPaths(document, key);
-                if (paths.length > 0) {
-                    paths = paths.map(path => path.replace(/\.\d+\./g, '.'));
-                   if(pathLogger) print(tenOrProp + "-->" + paths);
-                }
-            });
+            var paths = findKeyPaths(document, keys);
+            if (paths.length > 0) {
+                paths = paths.map(path => path.replace(/\.\d+\./g, '.'));
+                collectionOutput[tenOrProp] = paths;
+                if (pathLogger) print(tenOrProp + "-->" + paths);
+            }
         });
+        if (Object.keys(collectionOutput).length > 0) {
+            output[collection] = collectionOutput;
+        }
     });
 });
+
+print(JSON.stringify(output));
