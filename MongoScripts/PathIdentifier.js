@@ -33,8 +33,6 @@ var myCollections = ["accounts", "auditCommits", "configEvents", "maintenanceSer
 
 myCollections.forEach(collection => {
     var documents = getRandomDocuments(collection, 1);
-    print("   ");
-    print("Working on collection: " + collection);
 
     documents.forEach(document => {
         var collectionOutput = {};
@@ -46,7 +44,6 @@ myCollections.forEach(collection => {
             if (paths.length > 0) {
                 paths = paths.map(path => path.replace(/\.\d+\./g, '.'));
                 collectionOutput[tenOrProp] = paths;
-                if (pathLogger) print(tenOrProp + "-->" + paths);
             }
         });
         if (Object.keys(collectionOutput).length > 0) {
