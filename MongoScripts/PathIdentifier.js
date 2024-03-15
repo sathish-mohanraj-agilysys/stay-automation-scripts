@@ -52,7 +52,7 @@ myCollections.forEach(collection => {
     });
 });
 
-function printFormattedOutput(output) {
+function stay_mongo_cloner(output) {
     for (let collection in output) {
         print(collection + ":");
         for (let key in output[collection]) {
@@ -65,5 +65,6 @@ function printFormattedOutput(output) {
 
 }
 
-printFormattedOutput(output);
+if (cloneLogger){stay_mongo_cloner(output);}
+
 
