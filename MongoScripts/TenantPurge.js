@@ -52,7 +52,7 @@ var keyDefinition = [
         pattern: "_id"
     }
 ];
-var keyDefinition = keyDefinition.map(item => ({
+keyDefinition = keyDefinition.map(item => ({
     collection: item.collection.trim().split(","),
     pattern: item.pattern
 }));
