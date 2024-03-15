@@ -1,4 +1,7 @@
 var db = db.getSiblingDB("rGuestStay");
+var pathLogger=false;
+var cloneLogger=true;
+var deleteScriptLogger =false;
 
 function findKeyPaths(obj, key, currentPath = [], paths = []) {
     for (let prop in obj) {
@@ -41,7 +44,8 @@ myCollections.forEach(collection => {
             patterns.forEach(key => {
                 var paths = findKeyPaths(document, key);
                 if (paths.length > 0) {
-                    print(tenOrProp + "-->" + paths);
+                    paths = paths.map(path => path.replace(/\.\d+\./g, '.'));
+                   if(pathLogger) print(tenOrProp + "-->" + paths);
                 }
             });
         });
