@@ -19,13 +19,13 @@ function findKeyPaths(obj, keys, currentPath = [], paths = []) {
 }
 
 var tenantPropertyPath = [
-    { tenantId: ["tenantId", "ti", "path"] },
-    { propertyId: ["propertyId", "pi"] }
+    {tenantId: ["tenantId", "ti", "path"]},
+    {propertyId: ["propertyId", "pi"]}
 ];
 
 function getRandomDocuments(collectionName, numDocuments) {
     var collection = db.getCollection(collectionName);
-    var randomDocuments = collection.aggregate([{ $sample: { size: numDocuments } }]);
+    var randomDocuments = collection.aggregate([{$sample: {size: numDocuments}}]);
     return randomDocuments.toArray();
 }
 
@@ -52,4 +52,18 @@ myCollections.forEach(collection => {
     });
 });
 
-print(JSON.stringify(output));
+function printFormattedOutput(output) {
+    for (let collection in output) {
+        print(collection + ":");
+        for (let key in output[collection]) {
+            print(" " + key + ":");
+            let shortestPath = output[collection][key].reduce((shortest, current) => shortest.length < current.length ? shortest : current);
+            print("  - " + shortestPath);
+        }
+
+    }
+
+}
+
+printFormattedOutput(output);
+
