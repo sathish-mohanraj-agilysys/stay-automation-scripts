@@ -51,8 +51,11 @@ myCollections.forEach(collection => {
         }
     });
 });
-
+var firstlog=true;
 function stay_mongo_cloner(output) {
+    if(!firstlog){print("\n\n");}
+    print("This is the input yml file for the stay-mongodb-cloner\n");
+
     for (let collection in output) {
         print(collection + ":");
         for (let key in output[collection]) {
@@ -62,10 +65,13 @@ function stay_mongo_cloner(output) {
         }
 
     }
-
+firstlog=false;
 }
 
 function tenant_purge(output) {
+    if(!firstlog){print("\n\n");}
+    print("This is the input for the TenantPurge script to clean the tenant completely from the mongo db\n");
+
     let tenantPatterns = [];
     for (let collection in output) {
         output[collection]["tenantId"].forEach(pattern => tenantPatterns.push(pattern));
@@ -84,10 +90,13 @@ function tenant_purge(output) {
     }
     temp.forEach(collection=>collection["collection"]=[...new Set(collection["collection"])]);
     print(JSON.stringify(temp));
+    firstlog=false;
 }
 
 
 function tentantPropertyPath(output) {
+    if(!firstlog){print("\n\n");}
+    print("This is the reference to find how the tenant and property data is present in each collection\n")
     temp=[];
     for (let collection in output) {
         temp.push({[collection]:{
@@ -96,6 +105,7 @@ function tentantPropertyPath(output) {
             }})
     }
     print(JSON.stringify(temp));
+    firstlog=false;
 }
 
 
