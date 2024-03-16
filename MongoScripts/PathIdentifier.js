@@ -87,9 +87,19 @@ function tenant_purge(output) {
 }
 
 
+function tentantPropertyPath(output) {
+    temp=[];
+    for (let collection in output) {
+        temp.push({[collection]:{
+            TenantIdPath:[...new Set(output[collection]["tenantId"])],
+                PropertyIdPath:[...new Set(output[collection]["propertyId"])]
+            }})
+    }
+    print(JSON.stringify(temp));
+}
 
 
-
+if (pathLogger){tentantPropertyPath(output);}
 if (cloneLogger){stay_mongo_cloner(output);}
 if(deleteScriptLogger){tenant_purge(output);}
 
