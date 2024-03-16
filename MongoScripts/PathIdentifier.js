@@ -1,4 +1,5 @@
 var db = db.getSiblingDB("rGuestStay");
+var accuracy =5;
 var pathLogger = false;
 var cloneLogger = false;
 var deleteScriptLogger = false;
@@ -32,7 +33,7 @@ function getRandomDocuments(collectionName, numDocuments) {
 var myCollections = db.getCollectionNames();
 
 myCollections.forEach(collection => {
-    var documents = getRandomDocuments(collection, 1);
+    var documents = getRandomDocuments(collection, accuracy);
 
     documents.forEach(document => {
         var collectionOutput = {};
