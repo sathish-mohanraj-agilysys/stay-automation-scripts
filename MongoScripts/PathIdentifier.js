@@ -3,6 +3,7 @@ var accuracy =5;
 var pathLogger = false;
 var cloneLogger = false;
 var deleteScriptLogger = false;
+var statisticsLogger= false;
 var output = {};
 
 function findKeyPaths(obj, keys, currentPath = [], paths = []) {
@@ -109,9 +110,58 @@ function tentantPropertyPath(output) {
     firstlog=false;
 }
 
+function statistics(output){
+    if(!firstlog){print("\n\n");}
+    var collectionToManualOut=[];
+    var collectionWithOnlyTenantId=[];
+    var collectionWithOnlyPropertyId=[];
+    var bothTenantAndPropetryCollection=[];
+
+    for (let collectionName in output){
+        let collection = output[collectionName];
+
+        // Check if 'tenantId' or 'propertyId' arrays have length greater than 0
+        if (collection.hasOwnProperty("tenantId") && collection["tenantId"].length > 0 &&
+            (!collection.hasOwnProperty("propertyId") || collection["propertyId"].length === 0)) {
+            collectionWithOnlyTenantId.push(collectionName);
+        }
+         if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
+            collection.hasOwnProperty("propertyId") && collection["propertyId"].length > 0) {
+            collectionWithOnlyPropertyId.push(collectionName);
+        }
+         if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
+            (!collection.hasOwnProperty("propertyId") || collection["propertyId"].length === 0)) {
+            collectionToManualOut.push(collectionName);
+        }
+        if ((collection.hasOwnProperty("tenantId") &&collection["tenantId"].length >0) &&
+            (collection.hasOwnProperty("propertyId") && collection["propertyId"].length > 0)) {
+            bothTenantAndPropetryCollection.push(collectionName);
+        }
+    }
+
+    print("The Total collections in the db : " + Object.keys(output).length);
+    print("The Total collections with both tenant and property id in the db : " + Object.keys(bothTenantAndPropetryCollection).length);
+    print("The Total collections with only TenantId in the db : " + collectionWithOnlyTenantId.length);
+    print("The Total collections with only PropertyId in the db : " + collectionWithOnlyPropertyId.length);
+    print("The collections with no tenant and property id : " + collectionToManualOut.length);
+
+    print("\n\n");
+    print("The Total collection Names in the db : " + Object.keys(output));
+    print("\n");
+    print("The Total collections with both tenant and property id in the db : "+ bothTenantAndPropetryCollection);
+    print("\n");
+    print("The Total collection Names with only TenantId in the db : " + collectionWithOnlyTenantId);
+    print("\n");
+    print("The Total collection Names with PropertyId in the db : " + collectionWithOnlyPropertyId);
+    print("\n");
+    print("The collections with no tenant and property id : " + collectionToManualOut);
+    firstlog=false;
+}
+
 
 if (pathLogger){tentantPropertyPath(output);}
 if (cloneLogger){stay_mongo_cloner(output);}
 if(deleteScriptLogger){tenant_purge(output);}
+if(statisticsLogger){statistics(output);}
 
 
