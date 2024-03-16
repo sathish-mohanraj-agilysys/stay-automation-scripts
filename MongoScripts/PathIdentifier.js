@@ -145,14 +145,14 @@ function statistics(output){
         }
     }
 
-    print("The Total collections in the db : " + Object.keys(output).length);
+    print("The Total collections in the db : " + Object.keys(myCollections).length);
     print("The Total collections with both tenant and property id in the db : " + Object.keys(bothTenantAndPropetryCollection).length);
     print("The Total collections with only TenantId in the db : " + collectionWithOnlyTenantId.length);
     print("The Total collections with only PropertyId in the db : " + collectionWithOnlyPropertyId.length);
     print("The collections with no tenant and property id : " + collectionToManualOut.length);
 
     print("\n\n");
-    print("The Total collection Names in the db : " + Object.keys(output));
+    print("The Total collection Names in the db : " + myCollections);
     print("\n");
     print("The Total collections with both tenant and property id in the db : "+ bothTenantAndPropetryCollection);
     print("\n");
