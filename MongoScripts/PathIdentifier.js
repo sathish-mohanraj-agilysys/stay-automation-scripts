@@ -1,9 +1,9 @@
 var db = db.getSiblingDB("rGuestStay");
-var accuracy =5;
+var accuracy = 1;
 var pathLogger = true;
 var cloneLogger = true;
 var deleteScriptLogger = true;
-var statisticsLogger =true;
+var statisticsLogger = true;
 var output = {};
 
 function findKeyPaths(obj, keys, currentPath = [], paths = []) {
@@ -21,8 +21,8 @@ function findKeyPaths(obj, keys, currentPath = [], paths = []) {
 }
 
 var tenantPropertyPath = [
-    {tenantId: ["tenantId", "ti", "path","t"]},
-    {propertyId: ["propertyId", "pi","p"]}
+    {tenantId: ["tenantId", "ti", "path", "t"]},
+    {propertyId: ["propertyId", "pi", "p"]}
 ];
 
 function getRandomDocuments(collectionName, numDocuments) {
@@ -53,9 +53,12 @@ myCollections.forEach(collection => {
         }
     });
 });
-var firstlog=true;
+var firstlog = true;
+
 function stay_mongo_cloner(output) {
-    if(!firstlog){print("\n\n");}
+    if (!firstlog) {
+        print("\n\n");
+    }
     print("This is the input yml file for the stay-mongodb-cloner\n");
 
     for (let collection in output) {
@@ -77,76 +80,90 @@ function stay_mongo_cloner(output) {
 }
 
 function tenant_purge(output) {
-    if(!firstlog){print("\n\n");}
+    if (!firstlog) {
+        print("\n\n");
+    }
     print("This is the input for the TenantPurge script to clean the tenant completely from the mongo db\n");
 
     let tenantPatterns = [];
     for (let collection in output) {
-        output[collection]["tenantId"].forEach(pattern => tenantPatterns.push(pattern));
+        if (output[collection].hasOwnProperty("tenantId")) {
+            output[collection]["tenantId"].forEach(pattern => tenantPatterns.push(pattern));
+        }
     }
     let temp = [];
     tenantPatterns = [...new Set(tenantPatterns)];
-    tenantPatterns.forEach(x => temp.push({ collection: [], pattern: x }));
+    tenantPatterns.forEach(x => temp.push({collection: [], pattern: x}));
     for (let collection in output) {
-        output[collection]["tenantId"].forEach(pattern => {
-            temp.forEach(purgePattern => {
-                if (purgePattern["pattern"] === pattern) {
-                    purgePattern["collection"].push(collection);
-                }
+        if (output[collection].hasOwnProperty("tenantId")) {
+            output[collection]["tenantId"].forEach(pattern => {
+                temp.forEach(purgePattern => {
+                    if (purgePattern["pattern"] === pattern) {
+                        purgePattern["collection"].push(collection);
+                    }
+                });
             });
-        });
+        }
     }
-    temp.forEach(collection=>collection["collection"]=[...new Set(collection["collection"])]);
+    temp.forEach(collection => collection["collection"] = [...new Set(collection["collection"])]);
     print(JSON.stringify(temp));
-    firstlog=false;
+    firstlog = false;
 }
 
 
 function tentantPropertyPath(output) {
-    if(!firstlog){print("\n\n");}
+    if (!firstlog) {
+        print("\n\n");
+    }
     print("This is the reference to find how the tenant and property data is present in each collection\n")
-    temp=[];
+    temp = [];
     for (let collection in output) {
-        temp.push({[collection]:{
-            TenantIdPath:[...new Set(output[collection]["tenantId"])],
-                PropertyIdPath:[...new Set(output[collection]["propertyId"])]
-            }})
+        temp.push({
+            [collection]: {
+                TenantIdPath: [...new Set(output[collection]["tenantId"])],
+                PropertyIdPath: [...new Set(output[collection]["propertyId"])]
+            }
+        })
     }
     print(JSON.stringify(temp));
-    firstlog=false;
+    firstlog = false;
 }
 
-function statistics(output){
-    if(!firstlog){print("\n\n");}
-    var collectionToManualOut=[];
-    var collectionWithOnlyTenantId=[];
-    var collectionWithOnlyPropertyId=[];
-    var bothTenantAndPropetryCollection=[];
-    var dataPresentCollectionName=[];
+function statistics(output) {
+    if (!firstlog) {
+        print("\n\n");
+    }
+    var collectionToManualOut = [];
+    var collectionWithOnlyTenantId = [];
+    var collectionWithOnlyPropertyId = [];
+    var bothTenantAndPropetryCollection = [];
+    var dataPresentCollectionName = [];
 
-    for (let collectionName in output){
+    for (let collectionName in output) {
         let collection = output[collectionName];
         dataPresentCollectionName.push([collectionName].toString());
         if (collection.hasOwnProperty("tenantId") && collection["tenantId"].length > 0 &&
             (!collection.hasOwnProperty("propertyId") || collection["propertyId"].length === 0)) {
             collectionWithOnlyTenantId.push(collectionName);
         }
-         if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
+        if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
             collection.hasOwnProperty("propertyId") && collection["propertyId"].length > 0) {
             collectionWithOnlyPropertyId.push(collectionName);
         }
-         if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
+        if ((!collection.hasOwnProperty("tenantId") || collection["tenantId"].length === 0) &&
             (!collection.hasOwnProperty("propertyId") || collection["propertyId"].length === 0)) {
             collectionToManualOut.push(collectionName);
         }
-        if ((collection.hasOwnProperty("tenantId") &&collection["tenantId"].length >0) &&
+        if ((collection.hasOwnProperty("tenantId") && collection["tenantId"].length > 0) &&
             (collection.hasOwnProperty("propertyId") && collection["propertyId"].length > 0)) {
             bothTenantAndPropetryCollection.push(collectionName);
         }
     }
-  myCollections.forEach(collection=>{
-      if(!dataPresentCollectionName.includes(collection)){collectionToManualOut.push(collection)}
-  })
+    myCollections.forEach(collection => {
+        if (!dataPresentCollectionName.includes(collection)) {
+            collectionToManualOut.push(collection)
+        }
+    })
 
 
     print("The Total collections in the db : " + Object.keys(myCollections).length);
@@ -158,20 +175,28 @@ function statistics(output){
     print("\n\n");
     print("The Total collection Names in the db : " + myCollections);
     print("\n");
-    print("The Total collections with both tenant and property id in the db : "+ bothTenantAndPropetryCollection);
+    print("The Total collections with both tenant and property id in the db : " + bothTenantAndPropetryCollection);
     print("\n");
     print("The Total collection Names with only TenantId in the db : " + collectionWithOnlyTenantId);
     print("\n");
     print("The Total collection Names with PropertyId in the db : " + collectionWithOnlyPropertyId);
     print("\n");
-    print("The collections with no tenant and property id : " + collectionToManualOut);
-    firstlog=false;
+    print("The collections with no tenant and property id (need to verify manually) : " + collectionToManualOut);
+    firstlog = false;
 }
 
 
-if (pathLogger){tentantPropertyPath(output);}
-if (cloneLogger){stay_mongo_cloner(output);}
-if(deleteScriptLogger){tenant_purge(output);}
-if(statisticsLogger){statistics(output);}
+if (pathLogger) {
+    tentantPropertyPath(output);
+}
+if (cloneLogger) {
+    stay_mongo_cloner(output);
+}
+if (deleteScriptLogger) {
+    tenant_purge(output);
+}
+if (statisticsLogger) {
+    statistics(output);
+}
 
 
