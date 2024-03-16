@@ -4,58 +4,356 @@ var db = db.getSiblingDB('rGuestStay-aks-stay-qa-02');
 
 var keyDefinition = [
     {
-        collection: "accountDisplaySettings,accountHistories,accountingDate,accounts,allocationEventStream,allocations,announcementCategories,announcements,anonymizeEvents,appCuesConfig,arDeposit,authorizationHistory,autoCollectDeposit,autoNightAudit,autoRecurringChargeRules,batchDistributions,batchRooms,bookingChannelEventStream,bookingChannels,businessContext,casinoPointIssuanceSettings,casinoTier,comments,commissionEventStream,commissions,compAccountingMappings,compAuthorizers,compDepartments,compOfferDetails,compOfferDetailsResponseDomain,compOffers,componentBundles,compReverseRedemptionResponseDomain,condoOwners,condoRooms,consentPolicyMappings,contents,copyReservationsJobs,couponSettings,creditCardAuthRuleSettings,customFields,customizableDashBoard,dailyUserOperations,dataRetentionPolicyDetails,departmentDetails,documentDetails,emailPrintTracking,events,eventTypes,failedAuth,featureToggles,fiscalYear,gdprCommits,giftCardSettings,groups,guestConsentPolicyDetails,guestMessage,guestMessageEventStream,guestSatisfactionCategories,guestSatisfactionEntries,guestSatisfactionSettings,guestServiceRequests,guestServiceRequestsCounter,guestStayHistory,housekeepingServiceRequests,importEntries,importEntryFileDomain,importExport,InventoryItemAllocation,invoiceEventStream,invoices,jobs,lastRoomValues,ledgerBalancesUpdates,ledgerSettings,ledgerTransactions,ledgerTransactionsFlags,LedgerTransactionUpdates,linkedProfileRetentionDetails,linkedReservation,lostAndFoundEventStream,lostAndFoundItems,lostAndFoundSettings,lostBusinessTracking,loyaltyHKPatterns,maintenanceServiceRequests,maintenanceServiceRequestsCounter,MaintenanceStaffMember,nextAccountNumbers,offlineAuthInformation,otaManualSyncStatus,otaMetrics,otaReSyncStatus,payAgentEvents,payAgentTransactionEventStream,payAgentTransactions,paymentGatewaySettings,paymentInstrument,paymentInstrumentReference,planAttributes,PosPmsItems,PosPmsItemsDataPorter,postPaymentResponse,preferenceCategories,preferences,profileAnonymizeEntities,profileEventStream,profileOptions,profiles,profileSettings,propertyRates,propertyRateYield,propertySettings,rateAllocationGroup,rateAllocationGroupDetails,rateOverrides,recurringCharge,relayDeviceMapping,relayMessages,reportGroups,reports,reservationBookingNotice,reservationDailySnapshot,reservationEventStream,reservationInternal,roomMoveReasons,rooms,roomTypeChangeTracker,roomTypeConversionDetails,routingRuleTemplates,ScheduledDepositDueSnapshot,schedules,servicePatternInternal,serviceRequests,smsSettings,StaffMember,startupKey,statementHistories,taskDetails,taxGroups,taxSummaryConfig,tenantData,tenantDefaultSettings,tokens,transactionItemMutex,userEventStream,vehicleDetails,vehicleTypes,verifiedIdentities,verifiedIdentitiesEventStream,waitlistInquiries,waitlistInquiryConfig,accountReference,arDefaults,autoSettlementRule,batchStatus,creditTerms,digitalCheckIn,FieldNameCustomization,fieldSettings,FolioCustomizationSettings,groupReportFavouritesExecution,multipleReservationResponseDomain,otaTransactionRevisions,ownerTypeCategorization,PlayerRetailRatingDetails,postingRuleStatus,queueRoomDashboardDomain,queueRoomPriorityLookUpDomain,queueRoomSettings,rateCalendar,rateChangeHistory,rateFactor,ratePlan,ratesConfig,rateStrategy,reportFavourites,reportFavouritesGenerationInfo,reportFavouritesGroup,reservationHousekeepingHistory,resourceAssignmentPlans,roomUpgradeConfig,settlementHistories,transportInfo,travelLocation,travelType,unappliedPaymentHistories,UpdatedRoomStatusesResponse,appliance,binSettings,documentTypes,earlyCheckInLateCheckoutFees,earlyCheckoutFees,GroupSharedReservation,folioInvoices,httpCache,losHKPattern,sharedReservations,pmsProperties,otaOutboundEntity,adjustCharges,alertNotification,ariCache,ariChangeStatus,asyncJobResponse,autoCheckInManualStartStopDomain,AutoCheckoutSettings,checkoutScheduler,compRestrictions,digitalSettings,doNotMoveGuest,earlyDeparturePolicy,emailedReports,guestProfileReference,housekeepingBoards,igTransaction,noteOfTheDay,otaTransactionAttachments,otaTransactions,OwnersRevPar,posInterfaceSettings,queueColumnPreferenceConfig,reasons,reportsV1,reservationEventStreamRollback,reservationInternalRollback,routingTransferHistory,ruleTemplate,scmTransactions,secondaryWritesStatus,SelfCheckInCheckOutSetup,SelfCheckInCheckOutSetupImages,serviceRequestConfig,Teams,universalAlertFailedEvents,universalAlerts,universalAlertSetup,userPreferredColumns",
-        pattern: "tenantId"
+        "collection": [
+            "FieldNameCustomization",
+            "FolioCustomizationSettings",
+            "GroupSharedReservation",
+            "InventoryItemAllocation",
+            "MaintenanceStaffMember",
+            "PosPmsItems",
+            "PosPmsItemsDataPorter",
+            "ScheduledDepositDueSnapshot",
+            "StaffMember",
+            "Teams",
+            "UpdatedRoomStatusesResponse",
+            "accountHistories",
+            "accountingDate",
+            "accounts",
+            "allocationEventStream",
+            "allocations",
+            "announcementCategories",
+            "announcements",
+            "anonymizeEvents",
+            "arDefaults",
+            "arDeposit",
+            "ariChangeStatus",
+            "asyncJobResponse",
+            "authorizationHistory",
+            "autoNightAudit",
+            "autoRecurringChargeRules",
+            "autoSettlementRule",
+            "batchDistributions",
+            "batchRooms",
+            "batchStatus",
+            "binSettings",
+            "bookingChannelEventStream",
+            "bookingChannels",
+            "casinoTier",
+            "columnCustomization",
+            "comments",
+            "commissionEventStream",
+            "commissions",
+            "compAccountingMappings",
+            "compAuthorizers",
+            "compDepartments",
+            "compOfferDetails",
+            "compOfferDetailsResponseDomain",
+            "compOffers",
+            "compReverseRedemptionResponseDomain",
+            "componentBundles",
+            "consentPolicyMappings",
+            "copyReservationsJobs",
+            "creditCardAuthRuleSettings",
+            "creditTerms",
+            "dailyUserOperations",
+            "dataRetentionPolicyDetails",
+            "digitalCheckIn",
+            "digitalProtectedInventory",
+            "documentDetails",
+            "earlyCheckInLateCheckoutFees",
+            "earlyDeparturePolicy",
+            "emailPrintTracking",
+            "eventTypes",
+            "events",
+            "failedAuth",
+            "folioInvoices",
+            "foreignExchangeDetails",
+            "giftCardSettings",
+            "groups",
+            "guestConsentPolicyDetails",
+            "guestMessage",
+            "guestMessageEventStream",
+            "guestSatisfactionCategories",
+            "guestSatisfactionEntries",
+            "guestServiceRequests",
+            "guestServiceRequestsCounter",
+            "housekeepingServiceRequests",
+            "httpCache",
+            "igTransaction",
+            "importEntries",
+            "importEntryFileDomain",
+            "importExport",
+            "invoiceEventStream",
+            "invoices",
+            "jobs",
+            "lastRoomValues",
+            "ledgerBalancesUpdates",
+            "ledgerSettings",
+            "ledgerTransactionUpdates",
+            "ledgerTransactions",
+            "ledgerTransactionsFlags",
+            "linkedProfileRetentionDetails",
+            "linkedReservation",
+            "lostAndFoundEventStream",
+            "lostAndFoundItems",
+            "lostAndFoundSettings",
+            "loyaltyHKPatterns",
+            "maintenanceServiceRequests",
+            "maintenanceServiceRequestsCounter",
+            "multipleReservationResponseDomain",
+            "nextAccountNumbers",
+            "noteOfTheDay",
+            "offlineAuthInformation",
+            "otaMetrics",
+            "otaTransactionAttachments",
+            "otaTransactions",
+            "ownerTypeCategorization",
+            "paymentGatewaySettings",
+            "paymentInstrument",
+            "paymentInstrumentReference",
+            "pmsProperties",
+            "posInterfaceSettings",
+            "postPaymentResponse",
+            "preferenceCategories",
+            "preferences",
+            "profileAnonymizeEntities",
+            "profileEventStream",
+            "profileOptions",
+            "profileSettings",
+            "profiles",
+            "propertyRateYield",
+            "propertyRates",
+            "queueRoomDashboardDomain",
+            "queueRoomPriorityLookUpDomain",
+            "queueRoomSettings",
+            "rateAllocationGroup",
+            "rateAllocationGroupDetails",
+            "rateCalendar",
+            "rateChangeHistory",
+            "rateFactor",
+            "rateOverrides",
+            "ratePlan",
+            "rateStrategy",
+            "ratesConfig",
+            "reasons",
+            "recurringCharge",
+            "relayMessages",
+            "reportGroups",
+            "reports",
+            "reservationDailySnapshot",
+            "reservationEventStream",
+            "reservationHousekeepingHistory",
+            "reservationInternal",
+            "resourceAssignmentPlans",
+            "roomTypeChangeTracker",
+            "roomUpgradeConfig",
+            "rooms",
+            "routingRuleTemplates",
+            "scmTransactions",
+            "servicePatternInternal",
+            "serviceRequestConfig",
+            "settlementHistories",
+            "sharedReservations",
+            "smsSettings",
+            "statementHistories",
+            "taxSummaryConfig",
+            "tenantDefaultSettings",
+            "tokens",
+            "transportInfo",
+            "travelLocation",
+            "travelType",
+            "unappliedPaymentHistories",
+            "vehicleDetails",
+            "vehicleTypes",
+            "verifiedIdentities",
+            "verifiedIdentitiesEventStream",
+            "waitlistInquiries",
+            "waitlistInquiryConfig"
+        ],
+        "pattern": "tenantId"
     },
     {
-        collection: "transactionItemMutex,accountBalances,accountDaterollStatus,accountingItems,accountRecurringChargesStatus,adHocScheduledUserDetails,autoNightAuditErrors,autoRecurringChargeStatus,corruptedEntities,createInvoiceStatus,dateRoll,featureToggleMutex,homepagePreference,invoiceNumbers,invoiceReportStatus,ledgerBalancesUpdateMutex,pantryItems,roomTypeConversion,timedEntities,batchDistributorMutex,groupMutex,guestHistoryMutex,inventoryItemMutex,otaOutboundReSyncMutex,QueueRoomMutex,QueueRoomPublisherMutex,accountMutex,ariStatus,pmsMutex,propertyRatesMutex,relayMessageJob,reportFavouriteJobMutex,reservationCreationJob",
-        pattern: "_id.tenantId"
+        "collection": [
+            "QueueRoomMutex",
+            "QueueRoomPublisherMutex",
+            "accountBalances",
+            "accountRecurringChargesStatus",
+            "accountingItems",
+            "autoAssignAndConfirmJob",
+            "autoNightAuditErrors",
+            "autoRecurringChargeStatus",
+            "batchDistributorMutex",
+            "createInvoiceStatus",
+            "dateRoll",
+            "groupMutex",
+            "guestHistoryMutex",
+            "inventoryItemMutex",
+            "invoiceNumbers",
+            "invoiceReportStatus",
+            "ledgerBalancesUpdateMutex",
+            "pantryItems",
+            "pmsMutex",
+            "propertyRatesMutex",
+            "relayMessageJob",
+            "reservationCreationJob",
+            "timedEntities",
+            "transactionItemMutex"
+        ],
+        "pattern": "_id.tenantId"
     },
     {
-        collection: "houseKeepingServiceRequestEventStream,maintenanceServiceRequestEventStream",
-        pattern: "events.tenantId"
+        "collection": [
+            "accountBalances"
+        ],
+        "pattern": "value.balance.t"
     },
     {
-        collection: "guestServiceRequestEventStream",
-        pattern: "events.dataObject._id.tenantId"
+        "collection": [
+            "allocationEventStream"
+        ],
+        "pattern": "events.ident.tenantId"
     },
     {
-        collection: "invoiceReportResult",
-        pattern: "invoice.tenantId"
+        "collection": [
+            "auditCommits"
+        ],
+        "pattern": "ei.ti"
     },
     {
-        collection: "config",
-        pattern: "path"
+        "collection": [
+            "auditCommits"
+        ],
+        "pattern": "ei.et.t"
     },
     {
-        collection: "configEvents",
-        pattern: "events.path"
+        "collection": [
+            "auditCommits"
+        ],
+        "pattern": "c.t"
     },
     {
-        collection: "adHocReportAudit",
-        pattern: "ti"
+        "collection": [
+            "auditEntities"
+        ],
+        "pattern": "_id.ti"
     },
     {
-        collection: "auditEntities",
-        pattern: "_id.ti"
+        "collection": [
+            "auditEntities"
+        ],
+        "pattern": "_id.et.t"
     },
     {
-        collection: "auditCommits",
-        pattern: "ei.ti"
+        "collection": [
+            "auditEntities"
+        ],
+        "pattern": "li.ti"
     },
     {
-        collection: "eonsActivity",
-        pattern: "entity.ti"
+        "collection": [
+            "auditEntities"
+        ],
+        "pattern": "li.et.t"
     },
     {
-        collection: "gdprSettings,warehouseUser",
-        pattern: "_id"
+        "collection": [
+            "batchDistributions",
+            "relayMessages"
+        ],
+        "pattern": "request.tenantId"
+    },
+    {
+        "collection": [
+            "batchDistributions"
+        ],
+        "pattern": "request.account.tenantId"
+    },
+    {
+        "collection": [
+            "batchDistributions"
+        ],
+        "pattern": "data.tenantId"
+    },
+    {
+        "collection": [
+            "bookingChannelEventStream",
+            "commissionEventStream",
+            "verifiedIdentitiesEventStream"
+        ],
+        "pattern": "events.identifier.tenantId"
+    },
+    {
+        "collection": [
+            "config",
+            "configEvents"
+        ],
+        "pattern": "path"
+    },
+    {
+        "collection": [
+            "configEvents"
+        ],
+        "pattern": "events.path"
+    },
+    {
+        "collection": [
+            "eonsActivity"
+        ],
+        "pattern": "entity.tenantId"
+    },
+    {
+        "collection": [
+            "guestMessageEventStream",
+            "guestServiceRequestEventStream",
+            "houseKeepingServiceRequestEventStream",
+            "invoiceEventStream",
+            "lostAndFoundEventStream",
+            "maintenanceServiceRequestEventStream",
+            "profileEventStream",
+            "reservationEventStream"
+        ],
+        "pattern": "events._id.tenantId"
+    },
+    {
+        "collection": [
+            "guestMessageEventStream"
+        ],
+        "pattern": "events.guestMessage.tenantId"
+    },
+    {
+        "collection": [
+            "guestServiceRequestEventStream",
+            "houseKeepingServiceRequestEventStream",
+            "maintenanceServiceRequestEventStream"
+        ],
+        "pattern": "events.tenantId"
+    },
+    {
+        "collection": [
+            "invoiceReportResult"
+        ],
+        "pattern": "owner.tenantId"
+    },
+    {
+        "collection": [
+            "invoiceReportResult"
+        ],
+        "pattern": "invoice.tenantId"
+    },
+    {
+        "collection": [
+            "invoices"
+        ],
+        "pattern": "balance.t"
+    },
+    {
+        "collection": [
+            "settlementHistories"
+        ],
+        "pattern": "autoSettlementRule.tenantId"
     }
 ];
-keyDefinition = keyDefinition.map(item => ({
-    collection: item.collection.trim().split(","),
-    pattern: item.pattern
-}));
+
 
 function deleteDocuments(collections, query) {
     collections.forEach(collection=>{
