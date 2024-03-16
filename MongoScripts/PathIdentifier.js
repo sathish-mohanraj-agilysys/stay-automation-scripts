@@ -31,8 +31,8 @@ function getRandomDocuments(collectionName, numDocuments) {
     return randomDocuments.toArray();
 }
 
-var myCollections = db.getCollectionNames();
-
+var myCollections = db.getCollectionNames().sort();
+g
 myCollections.forEach(collection => {
     var documents = getRandomDocuments(collection, accuracy);
 
