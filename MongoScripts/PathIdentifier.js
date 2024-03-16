@@ -1,9 +1,9 @@
 var db = db.getSiblingDB("rGuestStay");
 var accuracy =5;
-var pathLogger = false;
-var cloneLogger = false;
-var deleteScriptLogger = false;
-var statisticsLogger= false;
+var pathLogger = true;
+var cloneLogger = true;
+var deleteScriptLogger = true;
+var statisticsLogger =true;
 var output = {};
 
 function findKeyPaths(obj, keys, currentPath = [], paths = []) {
@@ -63,11 +63,17 @@ function stay_mongo_cloner(output) {
         for (let key in output[collection]) {
             print(" " + key + ":");
             let shortestPath = output[collection][key].reduce((shortest, current) => shortest.length < current.length ? shortest : current);
-            print("  - " + shortestPath);
+            var paths = shortestPath.trim().split("\\.");
+            paths.forEach(path => {
+                let subpaths = path.split(".");
+                subpaths.forEach(subpath => {
+                    let indentedSubpath = ' '.repeat(3) + '- ' + subpath;
+                    print(indentedSubpath);
+                });
+            });
         }
-
     }
-firstlog=false;
+    firstlog = false;
 }
 
 function tenant_purge(output) {
