@@ -122,11 +122,11 @@ function statistics(output){
     var collectionWithOnlyTenantId=[];
     var collectionWithOnlyPropertyId=[];
     var bothTenantAndPropetryCollection=[];
+    var dataPresentCollectionName=[];
 
     for (let collectionName in output){
         let collection = output[collectionName];
-
-        // Check if 'tenantId' or 'propertyId' arrays have length greater than 0
+        dataPresentCollectionName.push([collectionName].toString());
         if (collection.hasOwnProperty("tenantId") && collection["tenantId"].length > 0 &&
             (!collection.hasOwnProperty("propertyId") || collection["propertyId"].length === 0)) {
             collectionWithOnlyTenantId.push(collectionName);
@@ -144,6 +144,10 @@ function statistics(output){
             bothTenantAndPropetryCollection.push(collectionName);
         }
     }
+  myCollections.forEach(collection=>{
+      if(!dataPresentCollectionName.includes(collection)){collectionToManualOut.push(collection)}
+  })
+
 
     print("The Total collections in the db : " + Object.keys(myCollections).length);
     print("The Total collections with both tenant and property id in the db : " + Object.keys(bothTenantAndPropetryCollection).length);
