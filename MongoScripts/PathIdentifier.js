@@ -19,8 +19,8 @@ function findKeyPaths(obj, keys, currentPath = [], paths = []) {
 }
 
 var tenantPropertyPath = [
-    {tenantId: ["tenantId", "ti", "path"]},
-    {propertyId: ["propertyId", "pi"]}
+    {tenantId: ["tenantId", "ti", "path","t"]},
+    {propertyId: ["propertyId", "pi","p"]}
 ];
 
 function getRandomDocuments(collectionName, numDocuments) {
@@ -29,7 +29,7 @@ function getRandomDocuments(collectionName, numDocuments) {
     return randomDocuments.toArray();
 }
 
-var myCollections = ["accounts", "auditCommits", "configEvents", "maintenanceServiceRequestEventStream", "config"];
+var myCollections = db.getCollectionNames();
 
 myCollections.forEach(collection => {
     var documents = getRandomDocuments(collection, 1);
@@ -65,6 +65,32 @@ function stay_mongo_cloner(output) {
 
 }
 
+function tenant_purge(output) {
+    let tenantPatterns = [];
+    for (let collection in output) {
+        output[collection]["tenantId"].forEach(pattern => tenantPatterns.push(pattern));
+    }
+    let temp = [];
+    tenantPatterns = [...new Set(tenantPatterns)];
+    tenantPatterns.forEach(x => temp.push({ collection: [], pattern: x }));
+    for (let collection in output) {
+        output[collection]["tenantId"].forEach(pattern => {
+            temp.forEach(purgePattern => {
+                if (purgePattern["pattern"] === pattern) {
+                    purgePattern["collection"].push(collection);
+                }
+            });
+        });
+    }
+    temp.forEach(collection=>collection["collection"]=[...new Set(collection["collection"])]);
+    print(JSON.stringify(temp));
+}
+
+
+
+
+
 if (cloneLogger){stay_mongo_cloner(output);}
+if(deleteScriptLogger){tenant_purge(output);}
 
 
