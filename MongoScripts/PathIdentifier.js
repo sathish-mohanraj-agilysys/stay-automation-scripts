@@ -70,7 +70,7 @@ function stay_mongo_cloner(output) {
             paths.forEach(path => {
                 let subpaths = path.split(".");
                 subpaths.forEach(subpath => {
-                    let indentedSubpath = ' '.repeat(3) + '- ' + subpath;
+                    let indentedSubpath = ' '.repeat(2) + '- ' + subpath;
                     print(indentedSubpath);
                 });
             });
