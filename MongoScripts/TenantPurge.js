@@ -1,6 +1,6 @@
 
-var tenantId = ["12345"];
-var db = db.getSiblingDB('rGuestStay-aks-stay-qa-02');
+var tenantId = ["369885"];
+var db = db.getSiblingDB('rGuestStay');
 
 var keyDefinition = [
     {
@@ -365,6 +365,12 @@ function deleteDocuments(collections, query) {
 
 var patterns = keyDefinition.map(definition => {
     var query = {};
+    if (definition.collection.includes("config") || definition.collection.includes("configEvents")) {
+        var regexPattern = tenantId.join("|");
+        query[definition.collection] = { "path": { $regex: regexPattern } };
+        return;
+    }
+
     query[definition.pattern] = { $in: tenantId };
     return query;
 });

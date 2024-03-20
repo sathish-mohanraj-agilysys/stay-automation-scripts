@@ -21,7 +21,7 @@ function findKeyPaths(obj, keys, currentPath = [], paths = []) {
 }
 
 var tenantPropertyPath = [
-    {tenantId: ["tenantId", "ti", "path", "t"]},
+    {tenantId: ["tenantId", "ti", "t"]},
     {propertyId: ["propertyId", "pi", "p"]}
 ];
 
