@@ -53,6 +53,15 @@ myCollections.forEach(collection => {
         }
     });
 });
+const sortedOutput = Object.keys(output)
+    .sort() // Sort collection names alphabetically
+    .reduce((acc, key) => {
+        acc[key] = output[key]; // Preserve the original structure
+        return acc;
+    }, {});
+
+// Assign the sorted object back to `output`
+output = sortedOutput;
 var firstlog = true;
 
 function stay_mongo_cloner(output) {
