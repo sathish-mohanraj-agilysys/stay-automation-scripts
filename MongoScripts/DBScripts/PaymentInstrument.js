@@ -74,7 +74,6 @@ var operations = [
             ],
             "correlationId": "37391acd56b21e89580f1d8eda14c39f000fff9da11e78302d5ce0ed6ceed9b5",
             "expirationYearMonth": "202612",
-            "tenantId": "222739",
             "accountNumberLast4": "1119",
             "nonIntegrated": false
         }

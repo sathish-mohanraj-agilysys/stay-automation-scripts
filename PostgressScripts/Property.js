@@ -1,6 +1,6 @@
-tenantId = "264101";
-propertyId = "QAINT1752103";
-var db = db.getSiblingDB('rGuestStay');
+tenantId = "208206";
+propertyId = "QAINT938516";
+var db = db.getSiblingDB('rGuestStay-aks-stay-qa');
 var collectionNames = ["anonymizeEvents","businessContext","casinoPointIssuanceSettings","comments","consentPolicyMappings","dataRetentionPolicyDetails","featureToggles","gdprCommits","guestConsentPolicyDetails","guestStayHistory","invoices","linkedProfileRetentionDetails","payAgentEvents","paymentInstrument","paymentInstrumentReference","preferenceCategories","preferences","profileAnonymizeEntities","profileEventStream","profiles","profileSettings","startupKey","tenantDefaultSettings","userEventStream","verifiedIdentities","verifiedIdentitiesEventStream","roomUpgradeConfig","appliance"];
 collectionNames.forEach(function(collname) {
 print(collname+" : " + db[collname].updateMany({ "tenantId": tenantId },{$set:{"notWrittenInWarehouse": ISODate("2000-01-01T00:00:00.000Z")}}).matchedCount);})
